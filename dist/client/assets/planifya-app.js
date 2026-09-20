@@ -123,7 +123,10 @@
     if(options.body && !(options.body instanceof FormData) && typeof options.body!=='string'){headers.set('Content-Type','application/json');options.body=JSON.stringify(options.body)}
     return fetchJson(path,{...options,headers},timeout);
   }
-  async function firebase(action, body){return fetchJson(`/__firebase/${encodeURIComponent(action)}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})}
+  // Firebase REST method names contain a literal colon (for example,
+  // accounts:signInWithPassword). Encoding it as %3A makes Vercel forward an
+  // invalid Google Identity Toolkit path and authentication returns a 404.
+  async function firebase(action, body){return fetchJson(`/__firebase/${action}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})}
 
   async function hydrateUser() {
     if(!state.session) return;

@@ -20,6 +20,7 @@ const requirements = [
   ['chat documents use backend file type', /messageType:isImage\?'image':isAudio\?'voice':'file'/],
   ['chat attachment metadata matches backend', /fileName:data\.fileName\|\|file\.name[\s\S]*fileSize:Number\(data\.fileSize\|\|file\.size\)/],
   ['email change flow exists', /submitEmailChange/],
+  ['Firebase method colons are not URL encoded', /fetchJson\(`\/__firebase\/\$\{action\}`/],
 ];
 
 for (const [label, pattern] of requirements) {
@@ -36,8 +37,8 @@ assert.match(css, /listing-results\.view-thumbnail/, 'thumbnail listing CSS');
 assert.match(css, /detail-gallery/, 'responsive gallery CSS');
 assert.match(css, /analytics-hero/, 'provider analytics CSS');
 assert.match(css, /@media\s*\(max-width:\s*680px\)/, 'mobile breakpoint');
-assert.match(html, /planifya-app\.css\?v=12/, 'release CSS cache version');
-assert.match(html, /planifya-app\.js\?v=12/, 'release JS cache version');
+assert.match(html, /planifya-app\.css\?v=13/, 'release CSS cache version');
+assert.match(html, /planifya-app\.js\?v=13/, 'release JS cache version');
 
 assert.equal(vercel.outputDirectory, 'dist/client');
 assert.ok(vercel.rewrites.some((rule) => rule.source === '/api/:path*' && rule.destination.startsWith('https://api.planifya.pk/api/')),
