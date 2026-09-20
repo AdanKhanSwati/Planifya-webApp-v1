@@ -1,0 +1,14 @@
+{
+  "name": "planifya-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Planifya web application backed by the production Planifya API.",
+  "scripts": {
+    "build": "node tests/release-check.mjs",
+    "dev": "node scripts/preview-server.mjs",
+    "test": "node tests/release-check.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
