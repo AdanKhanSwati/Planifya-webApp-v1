@@ -11,7 +11,7 @@ This matrix is based on the supplied Flutter application, its bundled Node/Expre
 | Customer booking | Quote, AbhiPay order and booking history | Production quote/order/status flow and synchronized history | `/api/payments/*`, `/api/bookings/*` |
 | Completion/refund | PIN completion, release, review and cancellation | Same guarded booking actions | `/api/bookings/*`, `/api/reviews` |
 | Tickets | Purchase, individual QR tickets and status | Ticket checkout, inventory verification and QR ticket display | `/api/ticket-bookings/*`, `/api/payments/ticket/*` |
-| Chat | Rooms, messages, media and offers | Text, image, supported audio, file attachments and custom offers | `/api/chat/*` |
+| Chat | Rooms, messages, media, presence, typing and offers | Cursor-paged rooms/messages, Socket.IO receive updates with polling fallback, text/media/files/voice and custom offers | `/api/chat/*`, `/socket.io/*` |
 | Provider mode | Customer/provider profile switch | Persistent switch for approved sellers | `/api/users/:firebaseUid` |
 | Provider onboarding | Application, business, bank and verification | Equivalent forms and status views | `/api/sellers-applications/*`, `/api/verification/*`, `/api/users/*` |
 | Services | Create, edit, images, packages, activation | Create/edit/pause plus per-service booking ledger | `/api/events/*`, `/api/bookings/event/:id/seller-view` |
@@ -29,7 +29,9 @@ This matrix is based on the supplied Flutter application, its bundled Node/Expre
 
 ## Release verification
 
-- Static release contract test covers API routing, category assets, responsive layouts, gallery, attachments, role switching, analytics and email-change wiring.
+- Static release contract test covers API routing, category assets, responsive layouts, keyboard-safe chat, chat pagination/status/attachments, gallery, role switching, analytics and email-change wiring.
 - Public API reads are checked through the deployed same-origin proxy.
 - Mobile verification targets 390 × 844; tablet 768 × 1024; desktop 1440 × 900.
 - Transactional writes require an approved production-safe test account and are not fabricated by automated checks.
+
+See [WEBAPP_AUDIT.md](WEBAPP_AUDIT.md) for the evidence reviewed, fixes in the current release and the remaining parity gaps that depend on OAuth, Web Push or approved production test accounts.
