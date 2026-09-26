@@ -18,7 +18,15 @@ const requirements = [
   ['per-service bookings exist', /serviceBookings/],
   ['chat images can be previewed', /viewChatImage/],
   ['chat documents use backend file type', /messageType:isImage\?'image':isAudio\?'voice':'file'/],
-  ['chat attachment metadata matches backend', /fileName:data\.fileName\|\|file\.name[\s\S]*fileSize:Number\(data\.fileSize\|\|file\.size\)/],
+  ['chat attachment metadata matches backend', /fileName:data\.fileName\|\|data\.originalName\|\|file\.name[\s\S]*fileSize:Number\(data\.fileSize\|\|data\.size\|\|file\.size\)/],
+  ['chat uploads are scoped to their room', /fd\.append\('roomId',state\.routeData\.roomId\)/],
+  ['mobile chat follows the visual viewport', /function syncChatViewport/],
+  ['chat access status follows Android', /\/status\?userId=/],
+  ['older chat messages can be paged', /function loadOlderMessages/],
+  ['chat room list uses backend cursor pagination', /function loadMoreRooms/],
+  ['chat receives Socket.IO updates with polling fallback', /function connectChatSocket/],
+  ['chat typing indicators follow Android events', /typing_start/],
+  ['booking cards use the backend event image', /eventImageUrl','eventId\.images\.0/],
   ['Android-style quotation cards exist', /quote-card-head/],
   ['quotation acceptance uses Android wording', /Accept &amp; Pay/],
   ['buyer/provider quotation actions exist', /Send quotation':'Request quotation/],
@@ -42,13 +50,17 @@ assert.match(css, /detail-gallery/, 'responsive gallery CSS');
 assert.match(css, /analytics-hero/, 'provider analytics CSS');
 assert.match(css, /quote-card-head/, 'quotation card CSS');
 assert.match(css, /@media\s*\(max-width:\s*680px\)/, 'mobile breakpoint');
-assert.match(html, /planifya-app\.css\?v=14/, 'release CSS cache version');
-assert.match(html, /planifya-app\.js\?v=14/, 'release JS cache version');
+assert.match(css, /chat-shell\.room-open\{position:fixed/, 'mobile chat is a keyboard-safe full-screen view');
+assert.match(html, /planifya-app\.css\?v=15/, 'release CSS cache version');
+assert.match(html, /planifya-app\.js\?v=15/, 'release JS cache version');
+assert.match(html, /\/socket\.io\/socket\.io\.js/, 'Socket.IO client is loaded from the production backend proxy');
 
 assert.equal(vercel.outputDirectory, 'dist/client');
 assert.ok(vercel.rewrites.some((rule) => rule.source === '/api/:path*' && rule.destination.startsWith('https://api.planifya.pk/api/')),
   'Vercel must proxy the production API on the same origin');
 assert.ok(vercel.rewrites.some((rule) => rule.source === '/__firebase/token'),
   'Vercel must proxy Firebase token refreshes');
+assert.ok(vercel.rewrites.some((rule) => rule.source === '/socket.io/:path*'),
+  'Vercel must proxy the production Socket.IO endpoint');
 
 console.log(`Planifya release checks passed (${requirements.length + 11} assertions).`);
