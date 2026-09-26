@@ -51,9 +51,9 @@ assert.match(css, /analytics-hero/, 'provider analytics CSS');
 assert.match(css, /quote-card-head/, 'quotation card CSS');
 assert.match(css, /@media\s*\(max-width:\s*680px\)/, 'mobile breakpoint');
 assert.match(css, /chat-shell\.room-open\{position:fixed/, 'mobile chat is a keyboard-safe full-screen view');
-assert.match(html, /planifya-app\.css\?v=15/, 'release CSS cache version');
-assert.match(html, /planifya-app\.js\?v=15/, 'release JS cache version');
-assert.match(html, /\/socket\.io\/socket\.io\.js/, 'Socket.IO client is loaded from the production backend proxy');
+assert.match(html, /planifya-app\.css\?v=16/, 'release CSS cache version');
+assert.match(html, /planifya-app\.js\?v=16/, 'release JS cache version');
+assert.match(html, /\/assets\/socket\.io\.min\.js\?v=16/, 'backend-matched Socket.IO client is bundled locally');
 
 assert.equal(vercel.outputDirectory, 'dist/client');
 assert.ok(vercel.rewrites.some((rule) => rule.source === '/api/:path*' && rule.destination.startsWith('https://api.planifya.pk/api/')),
