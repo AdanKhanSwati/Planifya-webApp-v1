@@ -6,7 +6,7 @@ Planifya Web is the responsive browser counterpart to the Planifya Android appli
 
 - Location selection by province, city and area
 - Service and ticket-event discovery with search, sorting and category filtering
-- Grid, list and compact thumbnail discovery layouts
+- Grid and list discovery layouts
 - Service/event details with touch-swipe media galleries
 - Firebase sign-up, sign-in, verification, password reset and confirmed email changes
 - Customer profile, favourites, notifications and customer/provider role switching

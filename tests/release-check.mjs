@@ -12,13 +12,16 @@ const requirements = [
   ['production API routes remain relative', /api\('\/api\//],
   ['Android category assets are mapped', /CATEGORY_ICONS=/],
   ['provider/customer role switching exists', /function setRole/],
-  ['grid/list/thumbnail listing modes exist', /setListingView/],
+  ['grid/list listing modes exist', /function setListingView/],
   ['swipeable listing gallery exists', /galleryScrolled/],
   ['provider booking analytics exists', /weeklyCounts/],
   ['per-service bookings exist', /serviceBookings/],
   ['chat images can be previewed', /viewChatImage/],
   ['chat documents use backend file type', /messageType:isImage\?'image':isAudio\?'voice':'file'/],
   ['chat attachment metadata matches backend', /fileName:data\.fileName\|\|file\.name[\s\S]*fileSize:Number\(data\.fileSize\|\|file\.size\)/],
+  ['Android-style quotation cards exist', /quote-card-head/],
+  ['quotation acceptance uses Android wording', /Accept &amp; Pay/],
+  ['buyer/provider quotation actions exist', /Send quotation':'Request quotation/],
   ['email change flow exists', /submitEmailChange/],
   ['Firebase method colons are not URL encoded', /fetchJson\(`\/__firebase\/\$\{action\}`/],
 ];
@@ -33,12 +36,14 @@ await Promise.all([
   'design-printing.png', 'makeup-artist.png',
 ].map((name) => access(new URL(`../dist/client/assets/planifya/categories/${name}`, import.meta.url))));
 
-assert.match(css, /listing-results\.view-thumbnail/, 'thumbnail listing CSS');
+assert.doesNotMatch(app, /setListingView\('thumbnail'\)/, 'thumbnail listing control is removed');
+assert.doesNotMatch(css, /listing-results\.view-thumbnail/, 'thumbnail listing CSS is removed');
 assert.match(css, /detail-gallery/, 'responsive gallery CSS');
 assert.match(css, /analytics-hero/, 'provider analytics CSS');
+assert.match(css, /quote-card-head/, 'quotation card CSS');
 assert.match(css, /@media\s*\(max-width:\s*680px\)/, 'mobile breakpoint');
-assert.match(html, /planifya-app\.css\?v=13/, 'release CSS cache version');
-assert.match(html, /planifya-app\.js\?v=13/, 'release JS cache version');
+assert.match(html, /planifya-app\.css\?v=14/, 'release CSS cache version');
+assert.match(html, /planifya-app\.js\?v=14/, 'release JS cache version');
 
 assert.equal(vercel.outputDirectory, 'dist/client');
 assert.ok(vercel.rewrites.some((rule) => rule.source === '/api/:path*' && rule.destination.startsWith('https://api.planifya.pk/api/')),
@@ -46,4 +51,4 @@ assert.ok(vercel.rewrites.some((rule) => rule.source === '/api/:path*' && rule.d
 assert.ok(vercel.rewrites.some((rule) => rule.source === '/__firebase/token'),
   'Vercel must proxy Firebase token refreshes');
 
-console.log(`Planifya release checks passed (${requirements.length + 8} assertions).`);
+console.log(`Planifya release checks passed (${requirements.length + 11} assertions).`);

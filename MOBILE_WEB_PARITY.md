@@ -5,7 +5,7 @@ This matrix is based on the supplied Flutter application, its bundled Node/Expre
 | Area | Android behavior | Web counterpart | Data source |
 |---|---|---|---|
 | Location | Province, city and area selection | Responsive location selector; persisted per browser | `/api/locations/*` |
-| Discovery | Categories, services, events and search | Same category artwork and filters; grid/list/thumbnail views | `/api/categories`, `/api/events*` |
+| Discovery | Categories, services, events and search | Same category artwork and filters; grid/list views | `/api/categories`, `/api/events*` |
 | Details | Listing media, packages, seller and location | Touch/trackpad gallery, thumbnails, packages and provider profile | `/api/events/:id` |
 | Identity | Firebase email account plus API profile | Sign-up, sign-in, verification, reset, confirmed email change | Firebase Identity Toolkit, `/api/auth/*`, `/api/users/*` |
 | Customer booking | Quote, AbhiPay order and booking history | Production quote/order/status flow and synchronized history | `/api/payments/*`, `/api/bookings/*` |
