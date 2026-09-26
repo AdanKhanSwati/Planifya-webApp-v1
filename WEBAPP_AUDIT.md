@@ -24,6 +24,12 @@ Audit date: 26 September 2026
 | Upload context | Web upload requests did not include the room id used by Android. | Image, voice and file uploads now include `roomId` and normalize both current and legacy response field names. |
 | Provider booking image | Web ignored the booking fields used by Android and displayed the generic event image. | Booking rows now prefer `eventImageUrl`, then `eventId.images[0]`, with service/listing fallbacks and a branded final placeholder. |
 | General responsive behavior | Long chat headings, narrow controls and nested scrolling could force overflow. | Header text now truncates safely, messages/composer use bounded flex sizing, and room scrolling is isolated from the page. |
+| Ratings and reviews | Review submission used a basic select, did not check duplicate-review status, and listing reviews were not browsable. | Booking eligibility now checks `/api/reviews/booking/:bookingId/check`; the Android-style star dialog submits to the existing backend; listing reviews support rating filters, pagination, statistics and provider responses. |
+| Profile thumbnails | Web recognized only `profilePicture` and `avatar`, and a failed URL left a broken image. | The shared avatar renderer now supports all profile fields used by Android/backend responses and swaps failed images to initials without disturbing layout. |
+| Notifications | Inbox requests were not audience scoped, used generic icons, and taps only marked items read. | Buyer/provider audience, Android tab groups, per-type icons/colors, responsive cards, mark-all scoping and payload-aware routing are implemented. |
+| Category sizing | The fixed horizontal strip left unused desktop space and rendered the Android assets too small. | Categories now fill a responsive grid; icon cells remain aligned even when labels wrap to two lines, and the supplied category art is rendered larger. |
+| Listing media | The listing gallery could swipe but its images did not open. | Every main image opens a responsive full-screen lightbox with next/previous controls and thumbnail navigation. |
+| Quotations | Request cards were plain messages; offer state omitted `isBooked` and expiry; checkout skipped the authoritative quote endpoint. | Request and quotation cards now mirror the Android UI, seller responses preserve buyer context, expiry/booked states are enforced, and acceptance fetches the server-bound quote before order creation. |
 
 ## Current functional coverage
 
@@ -40,8 +46,6 @@ These are evidence-backed gaps, not speculative features.
 | P1 | Google and Apple sign-in are present in Android but not in the web sign-in modal. | Federated-only accounts cannot authenticate on web. Completing this requires approved web OAuth client IDs, redirect domains and Firebase provider configuration; those external settings were not changed. |
 | P1 | Authenticated destructive/financial production E2E remains unexecuted. | Text/media/quotation round trips, real paid checkout, refund, payout and account deletion require approved buyer/provider test accounts and safe test transactions. Static contracts and read-only runtime checks cannot prove those writes. |
 | P2 | Background browser push is not registered. | The inbox and in-app Socket.IO events work while the site is open, but closed-tab OS notifications require a Firebase Web Push service worker, VAPID configuration and backend web-token registration. |
-| P2 | Notification rows mark read but do not deep-link to their booking, room, event or verification target. | Android has a notification router; the web payload-to-route mapping still needs to be implemented and verified against real payload variants. |
-| P2 | Full event-specific review browsing and filters are not exposed. | Listing ratings and provider recent reviews are present, and customers can submit reviews, but Android's complete paginated event review screen has no direct web route. |
 | P3 | Device preference parity is partial. | Android has a device-local notification toggle and an English-only language selector. Web relies on browser permissions/settings and has no separate settings screen. |
 
 ## Browser-dependent fallbacks
@@ -53,8 +57,7 @@ These are evidence-backed gaps, not speculative features.
 ## Release confidence
 
 - JavaScript syntax check: passed.
-- Automated release contract: passed (34 assertions at the time this audit was written).
+- Automated release contract: passed (42 assertions at the time this audit was written).
 - Inline handler/export comparison: no missing exported handlers.
 - Production backend/server logs: no errors in the inspected pre-release window.
 - Final deployment still requires mobile visual verification and post-deploy runtime-log review.
-
