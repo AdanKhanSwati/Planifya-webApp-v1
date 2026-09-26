@@ -12,7 +12,7 @@ Planifya Web is the responsive browser counterpart to the Planifya Android appli
 - Customer profile, favourites, notifications and customer/provider role switching
 - Service booking, ticket purchasing, status polling, e-tickets and QR presentation
 - Customer booking completion, payment release, reviews and cancellation/refund requests
-- Chat rooms, text, images, audio, documents and custom-offer workflows
+- Real-time chat rooms with polling fallback, cursor-paged history, text, images, audio, documents and custom-offer workflows
 - Provider onboarding, business details, identity verification and bank details
 - Provider service/event creation, editing, pausing, service-level bookings and ticket management
 - Provider dashboard analytics, bookings, refunds, reviews, sales, scanner and payout views
@@ -36,3 +36,5 @@ npm run build
 Vercel serves `dist/client` and applies the same-origin API rewrites in `vercel.json`.
 
 See [MOBILE_WEB_PARITY.md](MOBILE_WEB_PARITY.md) for the Android/web comparison and endpoint families.
+
+See [WEBAPP_AUDIT.md](WEBAPP_AUDIT.md) for the current completion audit and the small set of remaining items that require external OAuth/Web Push configuration or approved transactional test accounts.
