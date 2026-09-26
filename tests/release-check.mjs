@@ -30,6 +30,14 @@ const requirements = [
   ['Android-style quotation cards exist', /quote-card-head/],
   ['quotation acceptance uses Android wording', /Accept &amp; Pay/],
   ['buyer/provider quotation actions exist', /Send quotation':'Request quotation/],
+  ['custom offers use an authoritative backend quote', /payments\/custom-offer\/quote/],
+  ['booked quotations use the backend isBooked field', /meta\.isBooked/],
+  ['review eligibility checks the backend', /reviews\/booking\/\$\{encodeURIComponent\(b\.bookingId\)\}\/check/],
+  ['event reviews use the public review endpoint', /reviews\/event\/\$\{encodeURIComponent\(eventId\)\}/],
+  ['notification inbox is audience scoped', /notifications\?\$\{q\}/],
+  ['notification cards navigate to their destination', /function openNotification/],
+  ['profile thumbnails have a network error fallback', /avatar-image[\s\S]*onerror=/],
+  ['listing images open in a lightbox', /function openListingGallery/],
   ['email change flow exists', /submitEmailChange/],
   ['Firebase method colons are not URL encoded', /fetchJson\(`\/__firebase\/\$\{action\}`/],
 ];
@@ -51,9 +59,9 @@ assert.match(css, /analytics-hero/, 'provider analytics CSS');
 assert.match(css, /quote-card-head/, 'quotation card CSS');
 assert.match(css, /@media\s*\(max-width:\s*680px\)/, 'mobile breakpoint');
 assert.match(css, /chat-shell\.room-open\{position:fixed/, 'mobile chat is a keyboard-safe full-screen view');
-assert.match(html, /planifya-app\.css\?v=16/, 'release CSS cache version');
-assert.match(html, /planifya-app\.js\?v=16/, 'release JS cache version');
-assert.match(html, /\/assets\/socket\.io\.min\.js\?v=16/, 'backend-matched Socket.IO client is bundled locally');
+assert.match(html, /planifya-app\.css\?v=17/, 'release CSS cache version');
+assert.match(html, /planifya-app\.js\?v=17/, 'release JS cache version');
+assert.match(html, /\/assets\/socket\.io\.min\.js\?v=17/, 'backend-matched Socket.IO client is bundled locally');
 
 assert.equal(vercel.outputDirectory, 'dist/client');
 assert.ok(vercel.rewrites.some((rule) => rule.source === '/api/:path*' && rule.destination.startsWith('https://api.planifya.pk/api/')),
